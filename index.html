@@ -361,25 +361,32 @@
       padding: 16px;
       border-top: 1px solid #27272A;
     }
+    .version-download-btn,
     .version-import-btn {
-      width: 100%;
-      padding: 14px;
+      flex: 1;
+      padding: 12px;
       background: #1a1a22;
-      border: 1px dashed #3B82F6;
+      border: 1px solid #27272A;
       border-radius: 10px;
-      color: #3B82F6;
-      font-size: 14px;
+      color: #A1A1AA;
+      font-size: 13px;
       font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s;
     }
+    .version-download-btn:hover {
+      border-color: #22C55E;
+      color: #22C55E;
+      background: rgba(34, 197, 94, 0.1);
+    }
     .version-import-btn:hover {
+      border-color: #3B82F6;
+      color: #3B82F6;
       background: rgba(59, 130, 246, 0.1);
-      border-style: solid;
     }
 
     /* Logout Button */
@@ -4880,7 +4887,7 @@
 
     <footer class="footer">
       <span class="footer-quote">Нужна 1 чёткая сделка по ТС. Потом пауза. И ещё одна. Шаг = сделка.</span>
-      <span class="footer-version">v3.1 • Backup System</span>
+      <span class="footer-version">v3.2 • Backup System</span>
     </footer>
   </div>
 
@@ -5006,11 +5013,6 @@
       <span class="save-toast-item-text">Браузер (localStorage)</span>
       <span class="save-toast-item-status">✓</span>
     </div>
-    <div class="save-toast-item">
-      <span class="save-toast-item-icon">📁</span>
-      <span class="save-toast-item-text">Файл бэкапа</span>
-      <span class="save-toast-item-status" id="toast-file-name">backup.json</span>
-    </div>
   </div>
 </div>
 
@@ -5031,10 +5033,15 @@
     </div>
   </div>
   <div class="version-panel-footer">
+    <div style="display:flex;gap:10px;margin-bottom:10px;">
+      <button class="version-download-btn" onclick="downloadBackup()">
+        <span>⬇️</span> Скачать
+      </button>
+      <button class="version-import-btn" onclick="document.getElementById('backup-file-input').click()">
+        <span>📂</span> Загрузить
+      </button>
+    </div>
     <input type="file" id="backup-file-input" accept=".json" style="display:none" onchange="handleBackupFileSelect(event)">
-    <button class="version-import-btn" onclick="document.getElementById('backup-file-input').click()">
-      <span>📂</span> Загрузить из файла
-    </button>
   </div>
 </div>
 
@@ -5947,7 +5954,28 @@ function saveEverything() {
     }
   }
 
-  // 4. Скачиваем файл бэкапа
+  // 4. Показываем уведомление
+  showSaveToast(firebaseSaved);
+}
+
+// Скачивание бэкапа вручную
+function downloadBackup() {
+  const allData = {
+    setups: setups,
+    trades: trades,
+    strategies: strategies,
+    rules_do: rulesDo,
+    rules_dont: rulesDont,
+    profit_levels: profitLevels,
+    tips: tips,
+    learning_topics: learningTopics,
+    current_deposit: storage.get('current_deposit', 0),
+    mental_wrong: storage.get('mental_wrong', ''),
+    mental_right: storage.get('mental_right', ''),
+    correction: storage.get('correction', ''),
+    backup_date: new Date().toISOString()
+  };
+
   const fileName = `kate-backup-${new Date().toISOString().slice(0,10)}.json`;
   const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -5958,19 +5986,14 @@ function saveEverything() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-
-  // 5. Показываем уведомление
-  showSaveToast(firebaseSaved, fileName);
 }
 
-function showSaveToast(firebaseSaved, fileName) {
+function showSaveToast(firebaseSaved) {
   const toast = document.getElementById('save-toast');
   const firebaseStatus = document.getElementById('toast-firebase-status');
-  const fileNameEl = document.getElementById('toast-file-name');
 
   firebaseStatus.textContent = firebaseSaved ? '✓' : '⚠️ офлайн';
   firebaseStatus.style.color = firebaseSaved ? '#22C55E' : '#F59E0B';
-  fileNameEl.textContent = fileName;
 
   toast.classList.add('show');
 
