@@ -122,6 +122,241 @@
       transform: translateY(0);
     }
 
+    /* Save All Button */
+    .save-all-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #22C55E, #16A34A);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+    }
+    .save-all-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+    }
+    .save-all-btn:active {
+      transform: scale(0.95);
+    }
+    .save-all-btn svg {
+      flex-shrink: 0;
+    }
+
+    /* Version History Button */
+    .version-btn {
+      width: 40px;
+      height: 40px;
+      background: #1a1a22;
+      border: 1px solid #27272A;
+      border-radius: 10px;
+      color: #A1A1AA;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .version-btn:hover {
+      border-color: #3B82F6;
+      color: #3B82F6;
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    /* Toast Notification */
+    .save-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border: 1px solid #22C55E;
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 20px rgba(34, 197, 94, 0.2);
+      z-index: 10000;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      max-width: 360px;
+    }
+    .save-toast.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .save-toast-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .save-toast-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #22C55E, #16A34A);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .save-toast-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #22C55E;
+    }
+    .save-toast-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .save-toast-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: rgba(34, 197, 94, 0.1);
+      border-radius: 8px;
+      font-size: 13px;
+      color: #A1A1AA;
+    }
+    .save-toast-item-icon {
+      color: #22C55E;
+      font-size: 14px;
+    }
+    .save-toast-item-text {
+      flex: 1;
+    }
+    .save-toast-item-status {
+      color: #22C55E;
+      font-weight: 600;
+    }
+    .save-toast-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #71717A;
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .save-toast-close:hover {
+      color: #fff;
+    }
+
+    /* Version History Panel */
+    .version-panel {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 380px;
+      height: 100vh;
+      background: linear-gradient(180deg, #0f0f14, #0a0a0f);
+      border-left: 1px solid #27272A;
+      z-index: 10001;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .version-panel.open {
+      right: 0;
+    }
+    .version-panel-header {
+      padding: 20px;
+      border-bottom: 1px solid #27272A;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .version-panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .version-panel-close {
+      background: none;
+      border: none;
+      color: #71717A;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 5px;
+      transition: color 0.2s;
+    }
+    .version-panel-close:hover {
+      color: #fff;
+    }
+    .version-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .version-item {
+      padding: 16px;
+      background: #1a1a22;
+      border: 1px solid #27272A;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .version-item:hover {
+      border-color: #3B82F6;
+      background: rgba(59, 130, 246, 0.05);
+    }
+    .version-item-date {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .version-item-info {
+      font-size: 12px;
+      color: #71717A;
+      display: flex;
+      gap: 12px;
+    }
+    .version-item-stat {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .version-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #71717A;
+    }
+    .version-empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    .version-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    .version-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
     /* Logout Button */
     .logout-btn {
       width: 40px;
@@ -4406,6 +4641,22 @@
           <span style="width:8px;height:8px;background:var(--accent-success);border-radius:50%;animation:pulse 2s infinite;"></span>
           <span>Синхронизировано</span>
         </div>
+        <!-- КНОПКА ПОЛНОГО СОХРАНЕНИЯ -->
+        <button class="save-all-btn" onclick="saveEverything()" title="Сохранить всё + скачать бэкап">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          <span>Сохранить</span>
+        </button>
+        <!-- КНОПКА ИСТОРИИ ВЕРСИЙ -->
+        <button class="version-btn" onclick="openVersionPanel()" title="История версий">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </button>
         <button class="logout-btn" id="logout-btn" onclick="logout()" title="Выйти" style="display:none;">
           <span class="logout-icon">⏻</span>
         </button>
@@ -4604,7 +4855,7 @@
 
     <footer class="footer">
       <span class="footer-quote">Нужна 1 чёткая сделка по ТС. Потом пауза. И ещё одна. Шаг = сделка.</span>
-      <span class="footer-version">v2.3 • Multi-Device Safe</span>
+      <span class="footer-version">v3.0 • Backup System</span>
     </footer>
   </div>
 
@@ -4711,6 +4962,50 @@
       to { opacity: 0; pointer-events: none; }
     }
   </style>
+
+<!-- Toast уведомление о сохранении -->
+<div class="save-toast" id="save-toast">
+  <button class="save-toast-close" onclick="hideSaveToast()">✕</button>
+  <div class="save-toast-header">
+    <div class="save-toast-icon">✓</div>
+    <div class="save-toast-title">Всё сохранено!</div>
+  </div>
+  <div class="save-toast-list">
+    <div class="save-toast-item">
+      <span class="save-toast-item-icon">☁️</span>
+      <span class="save-toast-item-text">Firebase (облако)</span>
+      <span class="save-toast-item-status" id="toast-firebase-status">✓</span>
+    </div>
+    <div class="save-toast-item">
+      <span class="save-toast-item-icon">💾</span>
+      <span class="save-toast-item-text">Браузер (localStorage)</span>
+      <span class="save-toast-item-status">✓</span>
+    </div>
+    <div class="save-toast-item">
+      <span class="save-toast-item-icon">📁</span>
+      <span class="save-toast-item-text">Файл бэкапа</span>
+      <span class="save-toast-item-status" id="toast-file-name">backup.json</span>
+    </div>
+  </div>
+</div>
+
+<!-- Панель истории версий -->
+<div class="version-overlay" id="version-overlay" onclick="closeVersionPanel()"></div>
+<div class="version-panel" id="version-panel">
+  <div class="version-panel-header">
+    <div class="version-panel-title">
+      <span>📋</span> История версий
+    </div>
+    <button class="version-panel-close" onclick="closeVersionPanel()">✕</button>
+  </div>
+  <div class="version-list" id="version-list">
+    <div class="version-empty">
+      <div class="version-empty-icon">📭</div>
+      <div>Нет сохранённых версий</div>
+      <div style="margin-top:8px;font-size:12px;">Нажмите "Сохранить" чтобы создать первую версию</div>
+    </div>
+  </div>
+</div>
 
 <!-- Firebase SDK - loaded dynamically with fallback -->
 <script>
@@ -5560,6 +5855,249 @@ function save() {
 
   // Show synced status after a short delay (or keep offline status)
   setTimeout(() => showSyncStatus(isFirebaseReady ? 'synced' : 'offline'), 500);
+}
+
+// ============ ПОЛНОЕ СОХРАНЕНИЕ С БЭКАПОМ ============
+function saveEverything() {
+  // Разрешаем запись (пользователь явно нажал кнопку)
+  userHasInteracted = true;
+
+  // 1. Собираем все данные
+  const allData = {
+    setups: setups,
+    trades: trades,
+    strategies: strategies,
+    rules_do: rulesDo,
+    rules_dont: rulesDont,
+    profit_levels: profitLevels,
+    tips: tips,
+    learning_topics: learningTopics,
+    current_deposit: storage.get('current_deposit', 0),
+    mental_wrong: storage.get('mental_wrong', ''),
+    mental_right: storage.get('mental_right', ''),
+    correction: storage.get('correction', ''),
+    logo_text: storage.get('logo_text', 'ТС'),
+    system_title: storage.get('system_title', 'Торговая Система'),
+    backup_date: new Date().toISOString()
+  };
+
+  // 2. Сохраняем в localStorage
+  Object.keys(allData).forEach(key => {
+    if (key !== 'backup_date') {
+      localStorage.setItem('ts_' + key, JSON.stringify(allData[key]));
+    }
+  });
+
+  // 3. Сохраняем в Firebase (принудительно)
+  let firebaseSaved = false;
+  if (firebaseAvailable && dbRef) {
+    try {
+      Object.keys(allData).forEach(key => {
+        if (key !== 'backup_date') {
+          dbRef.child(key).set(allData[key]);
+          firebaseData[key] = allData[key];
+        }
+      });
+      // Сохраняем версию в историю
+      const versionId = Date.now().toString();
+      const versionData = {
+        ...allData,
+        id: versionId,
+        date: new Date().toISOString(),
+        learning_count: (learningTopics || []).length,
+        trades_count: (trades || []).length
+      };
+      dbRef.child('versions').child(versionId).set(versionData);
+
+      firebaseSaved = true;
+      console.log('✅ Все данные сохранены в Firebase + версия создана');
+    } catch (e) {
+      console.log('Firebase save error:', e);
+    }
+  }
+
+  // 4. Скачиваем файл бэкапа
+  const fileName = `kate-backup-${new Date().toISOString().slice(0,10)}.json`;
+  const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  // 5. Показываем уведомление
+  showSaveToast(firebaseSaved, fileName);
+}
+
+function showSaveToast(firebaseSaved, fileName) {
+  const toast = document.getElementById('save-toast');
+  const firebaseStatus = document.getElementById('toast-firebase-status');
+  const fileNameEl = document.getElementById('toast-file-name');
+
+  firebaseStatus.textContent = firebaseSaved ? '✓' : '⚠️ офлайн';
+  firebaseStatus.style.color = firebaseSaved ? '#22C55E' : '#F59E0B';
+  fileNameEl.textContent = fileName;
+
+  toast.classList.add('show');
+
+  // Автоматически скрыть через 5 секунд
+  setTimeout(() => {
+    hideSaveToast();
+  }, 5000);
+}
+
+function hideSaveToast() {
+  document.getElementById('save-toast').classList.remove('show');
+}
+
+// Загрузка бэкапа из файла
+function loadBackup(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+
+      // Восстанавливаем данные
+      if (data.setups) { setups = data.setups; storage.set('setups', setups); }
+      if (data.trades) { trades = data.trades; storage.set('trades', trades); }
+      if (data.strategies) { strategies = data.strategies; storage.set('strategies', strategies); }
+      if (data.rules_do) { rulesDo = data.rules_do; storage.set('rules_do', rulesDo); }
+      if (data.rules_dont) { rulesDont = data.rules_dont; storage.set('rules_dont', rulesDont); }
+      if (data.profit_levels) { profitLevels = data.profit_levels; storage.set('profit_levels', profitLevels); }
+      if (data.tips) { tips = data.tips; storage.set('tips', tips); }
+      if (data.learning_topics) { learningTopics = data.learning_topics; storage.set('learning_topics', learningTopics); }
+
+      // Перерисовываем интерфейс
+      renderAll();
+      alert('✅ Бэкап успешно восстановлен!');
+    } catch (err) {
+      alert('❌ Ошибка чтения файла: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ============ ИСТОРИЯ ВЕРСИЙ ============
+function openVersionPanel() {
+  document.getElementById('version-overlay').classList.add('show');
+  document.getElementById('version-panel').classList.add('open');
+  loadVersions();
+}
+
+function closeVersionPanel() {
+  document.getElementById('version-overlay').classList.remove('show');
+  document.getElementById('version-panel').classList.remove('open');
+}
+
+function loadVersions() {
+  const listEl = document.getElementById('version-list');
+
+  if (!firebaseAvailable || !dbRef) {
+    listEl.innerHTML = `
+      <div class="version-empty">
+        <div class="version-empty-icon">⚠️</div>
+        <div>Firebase недоступен</div>
+      </div>
+    `;
+    return;
+  }
+
+  listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#71717A;">Загрузка...</div>';
+
+  dbRef.child('versions').orderByChild('date').limitToLast(20).once('value', (snapshot) => {
+    const versions = [];
+    snapshot.forEach(child => {
+      versions.push({ id: child.key, ...child.val() });
+    });
+
+    // Сортируем по дате (новые первые)
+    versions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (versions.length === 0) {
+      listEl.innerHTML = `
+        <div class="version-empty">
+          <div class="version-empty-icon">📭</div>
+          <div>Нет сохранённых версий</div>
+          <div style="margin-top:8px;font-size:12px;">Нажмите "Сохранить" чтобы создать первую версию</div>
+        </div>
+      `;
+      return;
+    }
+
+    listEl.innerHTML = versions.map(v => {
+      const date = new Date(v.date);
+      const dateStr = date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      return `
+        <div class="version-item" onclick="restoreVersion('${v.id}')">
+          <div class="version-item-date">${dateStr}</div>
+          <div class="version-item-info">
+            <span class="version-item-stat">📚 ${v.learning_count || 0} тем</span>
+            <span class="version-item-stat">📊 ${v.trades_count || 0} сделок</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }, (error) => {
+    listEl.innerHTML = `
+      <div class="version-empty">
+        <div class="version-empty-icon">❌</div>
+        <div>Ошибка загрузки: ${error.message}</div>
+      </div>
+    `;
+  });
+}
+
+function restoreVersion(versionId) {
+  if (!confirm('Восстановить эту версию? Текущие данные будут заменены.')) {
+    return;
+  }
+
+  dbRef.child('versions').child(versionId).once('value', (snapshot) => {
+    const data = snapshot.val();
+    if (!data) {
+      alert('❌ Версия не найдена');
+      return;
+    }
+
+    // Разрешаем запись
+    userHasInteracted = true;
+
+    // Восстанавливаем данные
+    if (data.setups) { setups = data.setups; storage.set('setups', setups); }
+    if (data.trades) { trades = data.trades; storage.set('trades', trades); }
+    if (data.strategies) { strategies = data.strategies; storage.set('strategies', strategies); }
+    if (data.rules_do) { rulesDo = data.rules_do; storage.set('rules_do', rulesDo); }
+    if (data.rules_dont) { rulesDont = data.rules_dont; storage.set('rules_dont', rulesDont); }
+    if (data.profit_levels) { profitLevels = data.profit_levels; storage.set('profit_levels', profitLevels); }
+    if (data.tips) { tips = data.tips; storage.set('tips', tips); }
+    if (data.learning_topics) { learningTopics = data.learning_topics; storage.set('learning_topics', learningTopics); }
+
+    // Сохраняем в основную базу
+    Object.keys(data).forEach(key => {
+      if (!['id', 'date', 'learning_count', 'trades_count', 'backup_date'].includes(key)) {
+        if (firebaseAvailable && dbRef) {
+          dbRef.child(key).set(data[key]);
+          firebaseData[key] = data[key];
+        }
+        localStorage.setItem('ts_' + key, JSON.stringify(data[key]));
+      }
+    });
+
+    // Перерисовываем
+    renderAll();
+    closeVersionPanel();
+    alert('✅ Версия восстановлена!');
+  });
 }
 
 function showSyncStatus(status) {
