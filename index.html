@@ -124,29 +124,30 @@
 
     /* Save All Button */
     .save-all-btn {
+      width: 40px;
+      height: 40px;
+      background: #111113;
+      border: 1px solid #22C55E;
+      border-radius: 10px;
+      color: #22C55E;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: linear-gradient(135deg, #22C55E, #16A34A);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
+      justify-content: center;
       transition: all 0.3s;
-      box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
     }
     .save-all-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.15);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
     }
     .save-all-btn:active {
       transform: scale(0.95);
     }
     .save-all-btn svg {
       flex-shrink: 0;
+    }
+    .save-all-btn span {
+      display: none;
     }
 
     /* Version History Button */
@@ -355,6 +356,30 @@
     .version-overlay.show {
       opacity: 1;
       visibility: visible;
+    }
+    .version-panel-footer {
+      padding: 16px;
+      border-top: 1px solid #27272A;
+    }
+    .version-import-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1a1a22;
+      border: 1px dashed #3B82F6;
+      border-radius: 10px;
+      color: #3B82F6;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .version-import-btn:hover {
+      background: rgba(59, 130, 246, 0.1);
+      border-style: solid;
     }
 
     /* Logout Button */
@@ -4855,7 +4880,7 @@
 
     <footer class="footer">
       <span class="footer-quote">Нужна 1 чёткая сделка по ТС. Потом пауза. И ещё одна. Шаг = сделка.</span>
-      <span class="footer-version">v3.0 • Backup System</span>
+      <span class="footer-version">v3.1 • Backup System</span>
     </footer>
   </div>
 
@@ -5004,6 +5029,12 @@
       <div>Нет сохранённых версий</div>
       <div style="margin-top:8px;font-size:12px;">Нажмите "Сохранить" чтобы создать первую версию</div>
     </div>
+  </div>
+  <div class="version-panel-footer">
+    <input type="file" id="backup-file-input" accept=".json" style="display:none" onchange="handleBackupFileSelect(event)">
+    <button class="version-import-btn" onclick="document.getElementById('backup-file-input').click()">
+      <span>📂</span> Загрузить из файла
+    </button>
   </div>
 </div>
 
@@ -5978,6 +6009,17 @@ function loadBackup(file) {
     }
   };
   reader.readAsText(file);
+}
+
+// Обработчик выбора файла бэкапа
+function handleBackupFileSelect(event) {
+  const file = event.target.files[0];
+  if (file) {
+    loadBackup(file);
+    closeVersionPanel();
+  }
+  // Сбрасываем input чтобы можно было выбрать тот же файл снова
+  event.target.value = '';
 }
 
 // ============ ИСТОРИЯ ВЕРСИЙ ============
