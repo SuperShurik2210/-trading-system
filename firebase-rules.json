@@ -1,0 +1,44 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        // Только аутентифицированный пользователь может читать/писать свои данные
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid",
+
+        "profile": {
+          ".validate": "newData.hasChildren(['name', 'email', 'role', 'created_at'])"
+        },
+
+        "trading_data": {
+          // Защита от записи пустых данных в защищённые ключи
+          "learning_topics": {
+            ".validate": "newData.val() != null || !data.exists()"
+          },
+          "setups": {
+            ".validate": "newData.val() != null || !data.exists()"
+          },
+          "trades": {
+            ".validate": "newData.val() != null || !data.exists()"
+          },
+          "strategies": {
+            ".validate": "newData.val() != null || !data.exists()"
+          },
+
+          // Версии бэкапов
+          "versions": {
+            "$version_id": {
+              ".validate": "newData.hasChild('date')"
+            }
+          }
+        }
+      }
+    },
+
+    // Запрет доступа к старым данным без авторизации
+    "trading_data": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}
