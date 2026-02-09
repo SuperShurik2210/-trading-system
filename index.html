@@ -5920,7 +5920,7 @@ let currentUser = null;
 let userProfile = null;
 
 // Creator UID - первый пользователь системы (Alex Koval)
-const CREATOR_EMAIL = 'alex@kate-trading.com'; // Замени на свой email при первой регистрации
+const CREATOR_EMAIL = 'pmkovalalex@gmail.com'; // Email создателя системы
 
 // Device ID для PIN-авторизации
 function getDeviceId() {
@@ -6494,9 +6494,26 @@ async function handlePinEntry() {
   currentPin = '';
 }
 
+// Очистить данные предыдущего пользователя из localStorage
+function clearUserDataFromLocalStorage() {
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    // Удаляем все данные ts_ (trading system data)
+    if (key && key.startsWith('ts_')) {
+      keysToRemove.push(key);
+    }
+  }
+  keysToRemove.forEach(key => localStorage.removeItem(key));
+  console.log('🧹 Очищено', keysToRemove.length, 'ключей localStorage');
+}
+
 // Complete login and show app
 async function completeLogin() {
   if (!currentUser) return;
+
+  // ВАЖНО: Очистить localStorage от данных предыдущего пользователя
+  clearUserDataFromLocalStorage();
 
   // Set dbRef to user's data path
   dbRef = db.ref('users/' + currentUser.uid + '/trading_data');
@@ -6522,24 +6539,44 @@ async function completeLogin() {
 async function initFirebaseUserData() {
   if (!dbRef) return;
 
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     let resolved = false;
 
     const timeout = setTimeout(() => {
       if (!resolved) {
         resolved = true;
         console.log('⚠️ Firebase данные таймаут');
-        isFirebaseReady = true; // Allow writes anyway
+        isFirebaseReady = true;
         resolve();
       }
-    }, 5000);
+    }, 8000);
 
-    dbRef.once('value', (snapshot) => {
+    try {
+      const snapshot = await dbRef.once('value');
       if (resolved) return;
+
+      let data = snapshot.val();
+
+      // Если это создатель и данных нет - мигрировать старые данные
+      if (!data && currentUser && currentUser.email.toLowerCase() === CREATOR_EMAIL.toLowerCase()) {
+        console.log('🔄 Миграция данных для создателя...');
+        try {
+          const oldDataSnapshot = await db.ref('trading_data').once('value');
+          const oldData = oldDataSnapshot.val();
+          if (oldData) {
+            // Копируем старые данные в путь пользователя
+            await dbRef.set(oldData);
+            data = oldData;
+            console.log('✅ Данные мигрированы для создателя');
+          }
+        } catch (migrationError) {
+          console.log('⚠️ Ошибка миграции:', migrationError.message);
+        }
+      }
+
       resolved = true;
       clearTimeout(timeout);
 
-      const data = snapshot.val();
       if (data) {
         firebaseData = data;
         Object.keys(data).forEach(key => {
@@ -6548,17 +6585,18 @@ async function initFirebaseUserData() {
         console.log('✅ Данные пользователя загружены');
       } else {
         console.log('📝 Новый пользователь - данные пусты');
+        firebaseData = {};
       }
       isFirebaseReady = true;
       resolve();
-    }, (error) => {
+    } catch (error) {
       if (resolved) return;
       resolved = true;
       clearTimeout(timeout);
       console.log('⚠️ Ошибка загрузки данных:', error.message);
       isFirebaseReady = true;
       resolve();
-    });
+    }
 
     // Real-time sync
     dbRef.on('value', (snapshot) => {
