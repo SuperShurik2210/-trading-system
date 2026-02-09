@@ -5592,6 +5592,249 @@
     .user-dropdown-item.danger:hover {
       background: rgba(239, 68, 68, 0.15);
     }
+
+    /* ============ AUTH RESPONSIVE STYLES ============ */
+
+    /* Tablet (768px - 1024px) */
+    @media (max-width: 1024px) {
+      .auth-screen {
+        max-width: 380px;
+        padding: 32px 20px;
+      }
+      .auth-logo {
+        font-size: 18px;
+        gap: 8px;
+      }
+      .pin-dots {
+        gap: 16px;
+      }
+      .pin-dot {
+        width: 50px;
+        height: 50px;
+      }
+      .pin-keypad {
+        grid-template-columns: repeat(3, 60px);
+        gap: 10px;
+      }
+      .pin-key {
+        width: 60px;
+        height: 48px;
+        font-size: 22px;
+      }
+    }
+
+    /* Mobile (max 768px) */
+    @media (max-width: 768px) {
+      .auth-container {
+        padding: 20px 16px;
+        align-items: flex-start;
+        padding-top: 60px;
+      }
+      .auth-screen {
+        max-width: 100%;
+        padding: 24px 16px;
+      }
+      .auth-logo {
+        font-size: 16px;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .auth-subtitle {
+        font-size: 12px;
+        letter-spacing: 3px;
+      }
+      .auth-description {
+        font-size: 12px;
+      }
+      .auth-form {
+        gap: 10px;
+      }
+      .auth-input {
+        height: 44px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        -webkit-appearance: none;
+        border-radius: 0;
+      }
+      .auth-btn {
+        height: 44px;
+        font-size: 13px;
+      }
+      .auth-label {
+        font-size: 10px;
+      }
+      .pin-avatar {
+        width: 56px;
+        height: 56px;
+        font-size: 20px;
+      }
+      .pin-welcome {
+        font-size: 16px;
+      }
+      .pin-dots {
+        gap: 12px;
+        margin: 20px 0;
+      }
+      .pin-dot {
+        width: 48px;
+        height: 48px;
+        border-radius: 6px;
+      }
+      .pin-dot.filled::after {
+        font-size: 28px;
+      }
+      .pin-keypad {
+        grid-template-columns: repeat(3, 56px);
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .pin-key {
+        width: 56px;
+        height: 44px;
+        font-size: 20px;
+        border-radius: 6px;
+      }
+      .pin-error {
+        font-size: 12px;
+      }
+      .pin-attempts {
+        font-size: 10px;
+      }
+      .auth-creator-note {
+        margin-top: 24px;
+        font-size: 10px;
+      }
+      .user-menu-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 12px;
+      }
+      .user-dropdown {
+        min-width: 180px;
+        right: -10px;
+      }
+      .user-dropdown-header {
+        padding: 10px;
+      }
+      .user-dropdown-name {
+        font-size: 13px;
+      }
+      .user-dropdown-email {
+        font-size: 10px;
+      }
+      .user-dropdown-item {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+    }
+
+    /* Small Mobile (max 480px) */
+    @media (max-width: 480px) {
+      .auth-container {
+        padding-top: 40px;
+      }
+      .auth-logo {
+        font-size: 14px;
+      }
+      .pin-dots {
+        gap: 10px;
+      }
+      .pin-dot {
+        width: 44px;
+        height: 44px;
+      }
+      .pin-keypad {
+        grid-template-columns: repeat(3, 52px);
+        gap: 6px;
+      }
+      .pin-key {
+        width: 52px;
+        height: 42px;
+        font-size: 18px;
+      }
+    }
+
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+      .auth-input {
+        font-size: 16px !important; /* Prevent zoom on focus */
+      }
+      .pin-key {
+        -webkit-tap-highlight-color: transparent;
+      }
+    }
+
+    /* Touch device optimizations */
+    @media (hover: none) and (pointer: coarse) {
+      .auth-btn:hover {
+        background: #22C55E; /* Remove hover effect on touch */
+      }
+      .auth-btn-google:hover {
+        background: #18181B;
+      }
+      .pin-key:hover {
+        background: #18181B;
+      }
+      .pin-key:active {
+        background: #27272A;
+        transform: scale(0.95);
+      }
+      .auth-input:focus {
+        outline: none;
+        border-color: #22C55E;
+      }
+    }
+
+    /* Landscape phone orientation */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .auth-container {
+        padding-top: 20px;
+        align-items: flex-start;
+        overflow-y: auto;
+      }
+      .auth-content {
+        gap: 12px;
+      }
+      .pin-dots {
+        margin: 12px 0;
+      }
+      .pin-keypad {
+        margin-top: 8px;
+      }
+      .auth-creator-note {
+        margin-top: 16px;
+      }
+    }
+
+    /* High DPI displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .auth-input,
+      .auth-btn,
+      .pin-key {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+
+    /* Dark mode system preference (already dark, but ensure consistency) */
+    @media (prefers-color-scheme: dark) {
+      .auth-container {
+        background: #09090B;
+      }
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .pin-dot.error {
+        animation: none;
+      }
+      .auth-error {
+        animation: none;
+      }
+      * {
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 
 <!-- Toast уведомление о сохранении -->
@@ -6991,37 +7234,38 @@ function startLogin() {
     splashMaketaEx.style.animation = 'splashMaketaEx 3s ease-in-out forwards';
   }
 
-  // After splash animation (3s), show auth modal
+  // After splash animation (3s), show NEW auth container (Firebase Auth)
   setTimeout(() => {
     splash.style.display = 'none';
-    document.getElementById('auth-overlay').style.display = 'flex';
+    // Show new Firebase auth container instead of old auth-overlay
+    document.getElementById('auth-container').style.display = 'flex';
+    showAuthScreen('login');
   }, 3200);
 }
 
 function checkSavedAuth() {
-  // Check localStorage for owner (persistent)
+  // DEPRECATED: Now using Firebase Authentication
+  // This function is kept for backwards compatibility
+  // Real auth check happens in checkAuthState()
+
+  // Hide old auth systems
+  const oldOverlay = document.getElementById('auth-overlay');
+  if (oldOverlay) oldOverlay.style.display = 'none';
+
+  // If Firebase user exists, they're authenticated
+  if (currentUser) {
+    hideLandingPage();
+    return true;
+  }
+
+  // Check for legacy auth (will migrate to Firebase)
   const ownerAuth = localStorage.getItem('ts_auth');
-  // Check sessionStorage for guest (session only)
   const guestAuth = sessionStorage.getItem('ts_auth');
 
-  if (ownerAuth === 'owner') {
-    isAuthenticated = true;
-    isGuest = false;
-    hideLandingPage();
-    hideAuthModal();
-    showLogoutButton();
-    return true;
-  } else if (guestAuth === 'guest') {
-    isGuest = true;
-    isAuthenticated = true;
-    hideLandingPage();
-    document.body.classList.add('guest-mode');
-    document.getElementById('guest-badge').style.display = 'flex';
-    hideAuthModal();
-    hideLogoutButton();
-    document.addEventListener('copy', preventCopy);
-    document.addEventListener('contextmenu', preventContextMenu);
-    return true;
+  if (ownerAuth === 'owner' || guestAuth === 'guest') {
+    // Clear legacy auth - require new Firebase login
+    localStorage.removeItem('ts_auth');
+    sessionStorage.removeItem('ts_auth');
   }
 
   return false;
