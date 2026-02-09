@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KATE Logo Animation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #09090B;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-text {
+      font-size: 42px;
+      font-weight: 700;
+      position: relative;
+      background: linear-gradient(to right, currentColor 50%, #27272A 50%);
+      background-size: 200% 100%;
+      background-position: 100% 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-kate {
+      --fill-color: #22C55E;
+      color: #22C55E;
+      animation: fillKate 2s ease-in-out infinite;
+    }
+
+    .logo-maketa {
+      --fill-color: #EF4444;
+      color: #EF4444;
+      animation: fillMaketa 2s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+
+    .logo-divider {
+      font-size: 42px;
+      font-weight: 300;
+      color: #27272A;
+    }
+
+    @keyframes fillKate {
+      0%, 100% {
+        background-position: 100% 0;
+      }
+      25%, 75% {
+        background-position: 0% 0;
+      }
+    }
+
+    @keyframes fillMaketa {
+      0%, 100% {
+        background-position: 100% 0;
+      }
+      25%, 75% {
+        background-position: 0% 0;
+      }
+    }
+
+    /* === Вариант 2: Волна наполнения снизу вверх === */
+    .logo-v2 {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .wave-text {
+      font-size: 42px;
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wave-text .base {
+      color: #27272A;
+    }
+
+    .wave-text .fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      animation: waveFill 2.5s ease-in-out infinite;
+    }
+
+    .wave-text.kate .fill {
+      color: #22C55E;
+    }
+
+    .wave-text.maketa .fill {
+      color: #EF4444;
+      animation-delay: 1.25s;
+    }
+
+    @keyframes waveFill {
+      0%, 100% {
+        clip-path: inset(100% 0 0 0);
+      }
+      40%, 60% {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    /* === Вариант 3: Glow пульсация === */
+    .logo-v3 {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .glow-text {
+      font-size: 42px;
+      font-weight: 700;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    .glow-text.kate {
+      color: #22C55E;
+      text-shadow: 0 0 0px #22C55E;
+    }
+
+    .glow-text.maketa {
+      color: #EF4444;
+      text-shadow: 0 0 0px #EF4444;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        opacity: 0.4;
+        text-shadow: 0 0 0px currentColor;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        text-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+        transform: scale(1.02);
+      }
+    }
+
+    /* === Вариант 4: Typing эффект === */
+    .logo-v4 {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .type-text {
+      font-size: 42px;
+      font-weight: 700;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid;
+      animation: typing 2s steps(12) infinite, blink 0.5s step-end infinite alternate;
+    }
+
+    .type-text.kate {
+      color: #22C55E;
+      border-color: #22C55E;
+      width: 0;
+      animation: typingKate 4s steps(8) infinite;
+    }
+
+    .type-text.maketa {
+      color: #EF4444;
+      border-color: #EF4444;
+      width: 0;
+      animation: typingMaketa 4s steps(12) infinite;
+      animation-delay: 2s;
+    }
+
+    @keyframes typingKate {
+      0%, 100% { width: 0; }
+      25%, 75% { width: 8ch; }
+    }
+
+    @keyframes typingMaketa {
+      0%, 100% { width: 0; }
+      25%, 75% { width: 12ch; }
+    }
+
+    /* === Метки === */
+    .label {
+      color: #71717A;
+      font-size: 14px;
+      text-align: center;
+      margin-top: -40px;
+    }
+
+    .divider-line {
+      width: 80%;
+      height: 1px;
+      background: #27272A;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Вариант 1: Горизонтальное наполнение -->
+  <div>
+    <div class="logo-container">
+      <span class="logo-text logo-kate">勝て KATE</span>
+      <span class="logo-divider">|</span>
+      <span class="logo-text logo-maketa">負けた MAKETA</span>
+    </div>
+    <p class="label">1 — Horizontal Fill</p>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <!-- Вариант 2: Волна снизу вверх -->
+  <div>
+    <div class="logo-v2">
+      <div class="wave-text kate">
+        <span class="base">勝て KATE</span>
+        <span class="fill">勝て KATE</span>
+      </div>
+      <span class="logo-divider">|</span>
+      <div class="wave-text maketa">
+        <span class="base">負けた MAKETA</span>
+        <span class="fill">負けた MAKETA</span>
+      </div>
+    </div>
+    <p class="label">2 — Wave Fill (Bottom to Top)</p>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <!-- Вариант 3: Glow пульсация -->
+  <div>
+    <div class="logo-v3">
+      <span class="glow-text kate">勝て KATE</span>
+      <span class="logo-divider">|</span>
+      <span class="glow-text maketa">負けた MAKETA</span>
+    </div>
+    <p class="label">3 — Glow Pulse</p>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <!-- Вариант 4: Typing -->
+  <div>
+    <div class="logo-v4">
+      <span class="type-text kate">勝て KATE</span>
+      <span class="logo-divider">|</span>
+      <span class="type-text maketa">負けた MAKETA</span>
+    </div>
+    <p class="label">4 — Typing Effect</p>
+  </div>
+
+</body>
+</html>

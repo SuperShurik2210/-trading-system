@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Sync Tool</title>
+  <style>
+    body {
+      background: #09090B;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 40px;
+    }
+    h1 { color: #22C55E; }
+    .status {
+      padding: 20px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      margin: 20px 0;
+      white-space: pre-wrap;
+      font-family: monospace;
+      max-height: 400px;
+      overflow: auto;
+    }
+    button {
+      background: #22C55E;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 10px 10px 0;
+    }
+    button:hover { background: #16A34A; }
+    button.danger { background: #EF4444; color: #fff; }
+    .success { color: #22C55E; }
+    .error { color: #EF4444; }
+  </style>
+</head>
+<body>
+  <h1>🔄 Firebase Sync Tool</h1>
+
+  <button onclick="checkFirebase()">1. Проверить Firebase</button>
+  <button onclick="downloadData()">2. Скачать данные</button>
+  <button onclick="saveToLocal()">3. Сохранить в localStorage</button>
+
+  <div class="status" id="status">Нажмите кнопки по порядку...</div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAYM1fLE0nLtAOYF4C1i6cPGLUZLuNJREE",
+      authDomain: "trading-system-6d836.firebaseapp.com",
+      databaseURL: "https://trading-system-6d836-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "trading-system-6d836",
+      storageBucket: "trading-system-6d836.firebasestorage.app",
+      messagingSenderId: "742614951042",
+      appId: "1:742614951042:web:d12e32e3e4f0a123456789"
+    };
+
+    let firebaseData = null;
+    const statusEl = document.getElementById('status');
+
+    function log(msg, type = '') {
+      const span = document.createElement('div');
+      span.className = type;
+      span.textContent = msg;
+      statusEl.appendChild(span);
+      statusEl.scrollTop = statusEl.scrollHeight;
+    }
+
+    function checkFirebase() {
+      statusEl.innerHTML = '';
+      log('Подключаемся к Firebase...');
+
+      try {
+        firebase.initializeApp(firebaseConfig);
+        log('✅ Firebase инициализирован', 'success');
+
+        const db = firebase.database();
+        const dbRef = db.ref('trading_data');
+
+        log('Проверяем подключение к базе...');
+
+        dbRef.once('value', (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            log('✅ Данные найдены в Firebase!', 'success');
+            log('\n=== ВСЕ КЛЮЧИ В БАЗЕ ===');
+            Object.keys(data).forEach(key => {
+              const val = data[key];
+              if (Array.isArray(val)) {
+                log(`  ${key}: массив [${val.length} элементов]`);
+              } else if (typeof val === 'object') {
+                log(`  ${key}: объект {${Object.keys(val).length} ключей}`);
+              } else {
+                log(`  ${key}: ${val}`);
+              }
+            });
+            log('\n=== ДЕТАЛИ ===');
+            if (data.learning_topics) {
+              log('📚 Тем обучения: ' + (data.learning_topics.length || 0), 'success');
+              data.learning_topics.forEach((t, i) => log(`   ${i+1}. ${t.title}`));
+            } else {
+              log('❌ learning_topics НЕТ в базе!', 'error');
+            }
+            if (data.setups) {
+              log('⚡ Сетапов: ' + (data.setups.length || 0));
+            }
+            if (data.trades) {
+              log('📊 Сделок: ' + (data.trades.length || 0));
+            }
+          } else {
+            log('⚠️ База данных пуста или нет доступа', 'error');
+          }
+        }, (error) => {
+          log('❌ Ошибка: ' + error.message, 'error');
+        });
+
+      } catch (e) {
+        log('❌ Ошибка инициализации: ' + e.message, 'error');
+      }
+    }
+
+    function downloadData() {
+      log('\n📥 Скачиваем все данные...');
+
+      const db = firebase.database();
+      const dbRef = db.ref('trading_data');
+
+      dbRef.once('value', (snapshot) => {
+        firebaseData = snapshot.val();
+        if (firebaseData) {
+          log('✅ Данные скачаны!', 'success');
+          log('\n--- СОДЕРЖИМОЕ ---');
+          log(JSON.stringify(firebaseData, null, 2));
+        } else {
+          log('❌ Нет данных для скачивания', 'error');
+        }
+      }, (error) => {
+        log('❌ Ошибка: ' + error.message, 'error');
+      });
+    }
+
+    function saveToLocal() {
+      if (!firebaseData) {
+        log('\n❌ Сначала скачайте данные (кнопка 2)', 'error');
+        return;
+      }
+
+      log('\n💾 Сохраняем в localStorage...');
+
+      Object.keys(firebaseData).forEach(key => {
+        localStorage.setItem('ts_' + key, JSON.stringify(firebaseData[key]));
+        log('  ✓ ts_' + key);
+      });
+
+      log('\n✅ Данные сохранены в localStorage!', 'success');
+      log('Теперь откройте index.html - данные должны появиться.');
+    }
+  </script>
+</body>
+</html>

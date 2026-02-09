@@ -5205,19 +5205,30 @@
       align-items: center;
       gap: 20px;
     }
-    .auth-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .auth-container .auth-logo {
+      width: auto !important;
+      height: auto !important;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
       font-family: 'JetBrains Mono', monospace;
       font-weight: 700;
       font-size: 20px;
       flex-wrap: wrap;
-      justify-content: center;
+      position: static !important;
+      overflow: visible !important;
     }
-    .auth-kate { color: #22C55E; }
-    .auth-maketa { color: #EF4444; }
-    .auth-divider { color: #27272A; font-weight: 300; }
+    .auth-container .auth-logo::before {
+      display: none !important;
+    }
+    .auth-container .auth-kate { color: #22C55E; }
+    .auth-container .auth-maketa { color: #EF4444; }
+    .auth-container .auth-divider { color: #27272A; font-weight: 300; }
     .auth-subtitle {
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
@@ -5601,9 +5612,9 @@
         max-width: 380px;
         padding: 32px 20px;
       }
-      .auth-logo {
-        font-size: 18px;
-        gap: 8px;
+      .auth-container .auth-logo {
+        font-size: 18px !important;
+        gap: 8px !important;
       }
       .pin-dots {
         gap: 16px;
@@ -5634,11 +5645,11 @@
         max-width: 100%;
         padding: 24px 16px;
       }
-      .auth-logo {
-        font-size: 16px;
-        gap: 6px;
-        flex-wrap: wrap;
-        justify-content: center;
+      .auth-container .auth-logo {
+        font-size: 16px !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
       }
       .auth-subtitle {
         font-size: 12px;
@@ -5733,8 +5744,8 @@
       .auth-container {
         padding-top: 40px;
       }
-      .auth-logo {
-        font-size: 14px;
+      .auth-container .auth-logo {
+        font-size: 14px !important;
       }
       .pin-dots {
         gap: 10px;
@@ -7142,7 +7153,6 @@ function exitGuestMode() {
   sessionStorage.removeItem('ts_auth');
   document.body.classList.remove('guest-mode');
   document.getElementById('guest-badge').style.display = 'none';
-  document.getElementById('auth-overlay').style.display = 'flex';
   isGuest = false;
   isAuthenticated = false;
 
@@ -7150,13 +7160,9 @@ function exitGuestMode() {
   document.removeEventListener('copy', preventCopy);
   document.removeEventListener('contextmenu', preventContextMenu);
 
-  // Show question step
-  document.getElementById('auth-step-question').style.display = 'block';
-  document.getElementById('auth-step-pin').style.display = 'none';
-
-  // Reset PIN inputs
-  document.querySelectorAll('.pin-input').forEach(i => i.value = '');
-  clearPinError();
+  // Show new auth container
+  document.getElementById('auth-container').style.display = 'flex';
+  showAuthScreen('login');
 }
 
 // Play KATE voice on logo click
