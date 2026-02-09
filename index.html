@@ -6024,16 +6024,42 @@ let userHasInteracted = false; // КРИТИЧНО: запись в Firebase Т�
   }, { once: false, passive: true });
 });
 
+// Конвертирует Firebase объект с числовыми ключами обратно в массив
+function firebaseToArray(data) {
+  if (!data || typeof data !== 'object') return data;
+  if (Array.isArray(data)) return data;
+
+  // Проверяем, похоже ли это на массив (ключи 0, 1, 2...)
+  const keys = Object.keys(data);
+  const isArrayLike = keys.length > 0 && keys.every(k => /^\d+$/.test(k));
+
+  if (isArrayLike) {
+    // Конвертируем в массив
+    const arr = [];
+    keys.sort((a, b) => parseInt(a) - parseInt(b)).forEach(k => {
+      arr.push(firebaseToArray(data[k])); // Рекурсивно для вложенных
+    });
+    return arr;
+  }
+
+  // Рекурсивно обрабатываем объект
+  const result = {};
+  for (const k of keys) {
+    result[k] = firebaseToArray(data[k]);
+  }
+  return result;
+}
+
 const storage = {
   get(key, def = null) {
     // ПРИОРИТЕТ: Firebase данные ВСЕГДА главнее localStorage
     if (isFirebaseReady && firebaseData[key] !== undefined) {
-      return firebaseData[key];
+      return firebaseToArray(firebaseData[key]);
     }
     // Fallback to localStorage только если Firebase недоступен
     try {
       const data = localStorage.getItem('ts_' + key);
-      return data ? JSON.parse(data) : def;
+      return data ? firebaseToArray(JSON.parse(data)) : def;
     } catch { return def; }
   },
 
