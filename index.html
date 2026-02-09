@@ -4442,8 +4442,8 @@
   </style>
 </head>
 <body>
-  <!-- Landing Page for non-authenticated users -->
-  <div class="landing-page" id="landing-page">
+  <!-- Landing Page - DISABLED, using Firebase Auth now -->
+  <div class="landing-page" id="landing-page" style="display:none">
     <!-- Hero -->
     <section class="landing-hero">
       <div class="landing-logo">
@@ -6981,15 +6981,17 @@ function showGuestWarning() {
 }
 
 function answerYes() {
-  // Show PIN step
-  document.getElementById('auth-step-question').style.display = 'none';
-  document.getElementById('auth-step-pin').style.display = 'block';
-  setTimeout(() => document.querySelector('.pin-input').focus(), 100);
+  // DEPRECATED: Redirect to new Firebase Auth system
+  document.getElementById('auth-overlay').style.display = 'none';
+  document.getElementById('auth-container').style.display = 'flex';
+  showAuthScreen('login');
 }
 
 function answerNo() {
-  // Enter as guest
-  enterAsGuest();
+  // DEPRECATED: Redirect to new Firebase Auth - guest mode removed
+  document.getElementById('auth-overlay').style.display = 'none';
+  document.getElementById('auth-container').style.display = 'flex';
+  showAuthScreen('register');
 }
 
 function goBackToQuestion() {
@@ -7076,6 +7078,13 @@ function showPinError(msg) {
 }
 
 function submitPin() {
+  // DEPRECATED: Redirect to new Firebase Auth system
+  document.getElementById('auth-overlay').style.display = 'none';
+  document.getElementById('auth-container').style.display = 'flex';
+  showAuthScreen('login');
+  return;
+
+  // Old code below (kept for reference, never executes)
   const pin = getEnteredPin();
   if (pin.length !== 4) return;
 
