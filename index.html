@@ -6244,6 +6244,12 @@ async function loginWithEmail() {
 // Login with Google
 async function loginWithGoogle() {
   try {
+    if (!auth) {
+      showAuthError('Firebase не загружен. Перезагрузите страницу.');
+      return;
+    }
+
+    showAuthError(''); // Clear previous errors
     const provider = new firebase.auth.GoogleAuthProvider();
     const result = await auth.signInWithPopup(provider);
     currentUser = result.user;
@@ -6281,8 +6287,12 @@ async function loginWithGoogle() {
     console.error('Google login error:', error);
     if (error.code === 'auth/popup-closed-by-user') {
       // User closed popup - do nothing
+    } else if (error.code === 'auth/operation-not-allowed') {
+      showAuthError('Google вход не включён. Включите в Firebase Console → Authentication → Sign-in method');
+    } else if (error.code === 'auth/unauthorized-domain') {
+      showAuthError('Домен не авторизован. Добавьте supershurik2210.github.io в Firebase Console → Authentication → Settings → Authorized domains');
     } else {
-      showAuthError(error.message);
+      showAuthError(error.message || 'Ошибка входа через Google');
     }
   }
 }
